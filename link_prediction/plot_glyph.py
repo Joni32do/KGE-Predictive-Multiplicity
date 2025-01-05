@@ -12,7 +12,7 @@ FALSE_RED = (240/255, 1/255, 1/255) #(F00101)
 
 
 def draw_custom_glyph(ax, x, y, n_slices, slice_colors, baseline_color, ground_truth_color, 
-                      radius=0.05, inner_radius=0.025, outer_ring_width=0.01):
+                      radius=0.05, inner_radius=0.025, size=1):
     """
     Draw a custom glyph at given (x, y) coordinates with an inner circle and outer ring.
     
@@ -32,14 +32,16 @@ def draw_custom_glyph(ax, x, y, n_slices, slice_colors, baseline_color, ground_t
         radius: float, optional
             Radius of the circle (default is 0.1).
         inner_radius: float, optional
-            Radius of the inner baseline circle (default is 0.05).
-        outer_ring_width: float, optional
-            Width of the outer ring (default is 0.02).
+            Radius of the inner baseline circle (default is 0.05)
     """
     # Draw the outer ring (ground truth indicator)
     # outer_ring = Circle((x, y), radius + outer_ring_width, 
     #                     facecolor=ground_truth_color, edgecolor='black', zorder=1)
     # ax.add_patch(outer_ring)
+
+    radius = size * radius
+    inner_radius = size * inner_radius
+
     
     # Draw the main divided circle
     theta_step = 360 / n_slices  # Angle step for slices
@@ -55,7 +57,7 @@ def draw_custom_glyph(ax, x, y, n_slices, slice_colors, baseline_color, ground_t
                           facecolor=baseline_color, edgecolor='black', lw=0.5, zorder=3)
     ax.add_patch(inner_circle)
 
-def draw_binary_glyph(ax, x, y, eps_set, h0, ground_truth):
+def draw_binary_glyph(ax, x, y, eps_set, h0, ground_truth, size=1):
     """
     Draw a binary glyph at given (x, y) coordinates with an inner circle and outer ring.
     
@@ -76,7 +78,7 @@ def draw_binary_glyph(ax, x, y, eps_set, h0, ground_truth):
     baseline_color = TRUE_GREEN if h0 else FALSE_RED
     slice_colors = [TRUE_GREEN if h else FALSE_RED for h in eps_set]
     
-    draw_custom_glyph(ax, x, y, n_slices, slice_colors, baseline_color, ground_truth_color)
+    draw_custom_glyph(ax, x, y, n_slices, slice_colors, baseline_color, ground_truth_color, size=size)
 
 def explain_binary_glyph(ax):
     """

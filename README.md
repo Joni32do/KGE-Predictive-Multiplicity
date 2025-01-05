@@ -4,7 +4,7 @@ Content for the lecture "Machine Learning for Knowledge Graph Embeddings" during
 
 ## Abstract
 
-Predictive multiplicity is a phenomenon that occurs for predictions in classification and knowledge graph embeddings (KGE). Different measures of predictive multiplicity are defined that estimate how similar predictions are from competing models. Through illustrative examples, the extension of PM from classification to KGE is guided. 
+Predictive multiplicity is a phenomenon that occurs for predictions in classification and knowledge graph embeddings (KGE). Different measures of predictive multiplicity are defined that estimate how similar predictions are from competing models. Through illustrative examples, the extension of PM from classification to KGE is guided.
 
 ## Content
 
@@ -14,11 +14,18 @@ This repository contains
 
 #### XOR-Problem
 
+Can be found in `classification` and the figures can be created via 
+
+```bash
+python3 clf_2D_diag.py
+```
 
 #### Mushroom Dataset
+
+Postponed till know, because too extensive.
 
 ### Knowledge Graph Embeddings
 
 #### FB15k-237
 
-#### WN18RR
+To extensive to be used.
