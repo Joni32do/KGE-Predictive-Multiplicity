@@ -56,7 +56,9 @@ def example_baseline_and_epsilon_set():
     return h0, eps_set
 
 
-if __name__ == "__main__":
+# def calculate
+
+def main():
     X_custom, y_custom = make_xor_dataset(n=8, sampling="custom")
     X, y = make_xor_dataset(n=100, sampling="mesh")
     h0, eps_set = example_baseline_and_epsilon_set()
@@ -133,3 +135,6 @@ if __name__ == "__main__":
     plt.tight_layout()
     # plt.show()
     fig.savefig("../figures/xor.pdf")
+
+if __name__ == "__main__":
+    main()

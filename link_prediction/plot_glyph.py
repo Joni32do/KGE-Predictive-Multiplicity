@@ -95,7 +95,7 @@ def explain_binary_glyph(ax):
     ax.annotate("baseline $h_0$", xy=(x_center, y_center), xytext=(0.2, 0.9), arrowprops=dict(facecolor="black", shrink=0.05, width=0.8, headwidth=4, headlength=6), color="black", ha='center', va='center', transform=ax.transAxes, zorder=4.1)
     ax.text(x=0.1, y=0.18, s=r"$h \in S_{\varepsilon}(h_0)$")
     ax.text(x=0.4, y=1.05, s=r"prediction on $\mathcal{T}_{test}$", ha='center')
-    ax.text(x=0.4, y=0.0, s=r"data on $\mathcal{T}_{train}$", ha='center')
+    ax.text(x=0.4, y=0.0, s=r"data $\mathcal{T}_{train}$", ha='center')
     ax.add_patch(FancyBboxPatch((0.3, 0.45), 0.2, 0.24, fc="none", ec="lightgrey", lw=0.8, zorder=5, boxstyle="round, rounding_size=0.02"))
     for i, col in enumerate(["tab:blue", "tab:orange", "tab:green"]):
         x_aw = 0.27

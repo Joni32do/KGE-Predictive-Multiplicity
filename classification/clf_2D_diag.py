@@ -13,7 +13,8 @@ def make_dataset(n: int = 64, sampling: str="marx"):
         X = np.meshgrid(np.linspace(-1, 1, int(np.sqrt(n))), np.linspace(-1, 1, int(np.sqrt(n))))
         X = np.array(X).reshape(2, -1).T
     elif sampling == "random":
-        X = np.array([np.random.rand(n) * 2 - 1, np.random.rand(n) * 2 - 1]).T
+        rng = np.random.default_rng(424)
+        X = 2*rng.random((n, 2)) - 1
     elif sampling == "custom":
         X = np.array([[-0.5, -0.5], [-0.5, 0.5], [0.5, -0.5], [0.5, 0.5], [0.3, 0.7], [-0.75, 0.25], [-0.1, 0.9], [0.9, -0.1]])
     y = X[:, 0] > 0
@@ -37,8 +38,8 @@ def example_baseline_and_epsilon_set():
     return h0, eps_set
 
 
-if __name__ == "__main__":
-    X_custom, y_custom = make_dataset(n=8, sampling="custom")
+def main():
+    X_custom, y_custom = make_dataset(n=15, sampling="random")
     X, y = make_diag_dataset(n=100)
     h0, eps_set = example_baseline_and_epsilon_set()
 
@@ -100,3 +101,6 @@ if __name__ == "__main__":
     plt.tight_layout()
     # plt.show()
     fig.savefig("../figures/diag_border.pdf")
+
+if __name__ == "__main__":
+    main()
