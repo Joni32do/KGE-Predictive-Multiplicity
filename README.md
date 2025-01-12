@@ -8,6 +8,8 @@ In machine learning, models are designed to detect patterns from data, enabling 
 
 ## Content
 
+The paper of Lukas Harsch and Jonathan Schnitzler, [here](ML_with_Graphs.pdf)
+
 This repository contains
 
 ### Classification
@@ -35,7 +37,7 @@ Postponed till know, because too extensive.
 
 #### Own example
 
-![Own example](figures/graph_clf_space.pdf)
+![Own example](figures/graph_clf_space.png)
 #### FB15k-237
 
 To extensive to be used.

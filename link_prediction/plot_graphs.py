@@ -60,8 +60,8 @@ def plot_graph(entities,
     # Initialize the figure and axis
     cm = 1/2.54  # centimeters in inches
     fig, ax = plt.subplots(figsize=(16*cm, 8*cm))
-    ax.set_xlim(-3, 5)
-    ax.set_ylim(-2.5, 2.5)
+    ax.set_xlim(-3, 5) #8
+    ax.set_ylim(-2, 2) # 5
     ax.axis("off")
 
     for name, pos in entities.items():
@@ -77,7 +77,7 @@ def plot_graph(entities,
         draw_arrow(ax, entities[start_name], entities[end_name], relation_name, is_testdata=True)
 
         # Draw binary glyphs 
-        n_clf = 3
+        n_clf = 2
         drawpoint = ((3*entities[start_name][0] + 2*entities[end_name][0]) / 5, 
                     (3*entities[start_name][1] + 2*entities[end_name][1]) / 5)
         glyph_values = rng.choice([True, False], (1+n_clf,), p=[truth_prob, 1-truth_prob])

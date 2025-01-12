@@ -132,9 +132,9 @@ def main(entities, train_relations):
     
 
 if __name__ == "__main__":
-    # Draw nodes (entities)
+    # Draw nodes (entities) # 5:3.5
     entities_dict = {
-        "Earth": (2.5, -0.5),
+        "Earth": (3, -0.5),
         # "Saturn": (-0.5, 1.5),
         "Jupiter": (-2, 1.5),
         "Mars": (0, 2),
@@ -142,7 +142,7 @@ if __name__ == "__main__":
         "Hubble": (-1.5, -1.5),
         # "James Webb": (-2, -1.5),
         # "Sirius": (-3, 0),
-        "Moon": (2, -2),
+        "Moon": (2, -1.5),
         "Sun": (0, 0),
         # "Titan": (0.5, 2.5)
     }
@@ -169,9 +169,9 @@ if __name__ == "__main__":
     ]
     test_relations = [
         ("Earth", "observes", "Curiosity Rover", 0.9),
-        ("Curiosity Rover", "orbits", "Sun", 0.9),
+        ("Curiosity Rover", "orbits", "Sun", 0.4),
         ("Sun", "orbits", "Hubble", 0.1),
-        ("Moon", "orbits", "Sun", 0.4),
+        ("Moon", "orbits", "Sun", 0.7),
         # ("Hubble", "observes", "Sirius", 0.9),
     ]
 
