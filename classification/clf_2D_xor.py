@@ -10,12 +10,14 @@ from plot_glyph import draw_binary_glyph, explain_binary_glyph, TRUE_GREEN, FALS
 
 def make_xor_dataset(n: int = 64, sampling: str="marx"):
     if sampling == "mesh":
-        X = np.meshgrid(np.linspace(-1, 1, int(np.sqrt(n))), np.linspace(-1, 1, int(np.sqrt(n))))
+        X = np.meshgrid(np.linspace(-1, 1, int(np.sqrt(n))),
+                        np.linspace(-1, 1, int(np.sqrt(n))))
         X = np.array(X).reshape(2, -1).T
     elif sampling == "random":
-        X = np.array([np.random.rand(n) * 2 - 1, np.random.rand(n) * 2 - 1]).T
+        X = np.array([np.random.rand(n) * 2 - 1,
+                      np.random.rand(n) * 2 - 1]).T
     elif sampling == "custom":
-        X = np.array([[-0.5, -0.5], [-0.5, 0.5], [0.5, -0.5], [0.5, 0.5], [0.3, 0.7], [-0.75, 0.25]])
+        X = np.meshgrid(np.linspace(-1, 1, int(np.sqrt(n))), np.linspace(-1, 1, int(np.sqrt(n))))
     y = np.logical_xor(X[:, 0] > 0, X[:, 1] > 0)
     return X, y
 
@@ -50,8 +52,10 @@ def fit_baseline_and_epsilon_set(X, y, epsilon=0.1, n_representatives=3):
 def example_baseline_and_epsilon_set():
     h0 = Custom_SVM(w=np.array([0, 1]), b=0)
     eps_set = []
+
     for i in range(3):
-        clf = Custom_SVM(w=np.array([np.sin((i+1)*4*np.pi/7), np.cos((i+1)*4*np.pi/7)]), b=0)
+        clf = Custom_SVM(w=np.array([np.sin((i+1)*np.pi/5),
+                                     np.cos((i+1)*np.pi/5)]), b=0)
         eps_set.append(clf)
     return h0, eps_set
 
@@ -59,8 +63,9 @@ def example_baseline_and_epsilon_set():
 # def calculate
 
 def main():
-    X_custom, y_custom = make_xor_dataset(n=8, sampling="custom")
     X, y = make_xor_dataset(n=100, sampling="mesh")
+    idz = [16, 24, 28, 31, 54, 58, 61, 85]
+    X_custom, y_custom = X[idz], y[idz]
     h0, eps_set = example_baseline_and_epsilon_set()
 
     # X, y = make_marx_dataset(n=10)
@@ -135,6 +140,7 @@ def main():
     plt.tight_layout()
     # plt.show()
     fig.savefig("../figures/xor.pdf")
+    fig.savefig("../figures/xor.png", dpi=300)
 
 if __name__ == "__main__":
     main()

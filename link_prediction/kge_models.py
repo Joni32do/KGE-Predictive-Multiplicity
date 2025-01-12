@@ -31,7 +31,7 @@ class KGE_model():
                 elif e is elements_of_interest[i]:
                     predicted_values[i, j] = self.value_fn(truth_probs[i])
                 else:
-                    predicted_values[i, j] = self.value_fn(1 - truth_probs[i])
+                    predicted_values[i, j] = self.value_fn(0.0)
     
         return predicted_values
     
@@ -63,17 +63,17 @@ class KGE_model():
 class KGE_model_1(KGE_model):
     def __init__(self, entities: Iterable[str]):
         super().__init__(entities)
-        self.value_fn = lambda x: 2*x+np.random.normal(0, 0.1)
+        self.value_fn = lambda x: 1*x+np.random.normal(0, 0.)
         
 class KGE_model_2(KGE_model):
     def __init__(self, entities: Iterable[str]):
         super().__init__(entities)
-        self.value_fn = lambda x: 2*x+np.random.normal(0, 0.2)
+        self.value_fn = lambda x: 60*x+np.random.normal(0, 10) + 20
         
 class KGE_model_3(KGE_model):
     def __init__(self, entities: Iterable[str]):
         super().__init__(entities)
-        self.value_fn = lambda x: 2*x+np.random.normal(0.1, 0.1)
+        self.value_fn = lambda x: 5*x+np.random.normal(0.1, 0.1) - 2
         
 class KGE_model_4(KGE_model):
     def __init__(self, entities: Iterable[str]):

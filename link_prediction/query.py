@@ -9,3 +9,12 @@ class Query():
             return (missing_value, self.relation, self.value)
         else:
             return (self.value, self.relation, missing_value)
+        
+    def __str__(self):
+        if self.head_is_missing:
+            return "(?, " + self.relation + ", " + self.value + ")"
+        else:
+            return "(" + self.value + ", " + self.relation + ", ?)"
+        
+    def __repr__(self):
+        return str(self)

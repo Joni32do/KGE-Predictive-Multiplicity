@@ -39,8 +39,9 @@ def example_baseline_and_epsilon_set():
     return h0, eps_set
 
 def main():
-    X_custom, y_custom = make_dataset(n=15, sampling="random")
     X, y = make_dataset(n=100, sampling="mesh")
+    X_custom, y_custom = make_dataset(n=15, sampling="random")
+    X_custom, y_custom = X, y
     h0, eps_set = example_baseline_and_epsilon_set()
 
     # X, y = make_marx_dataset(n=10)
@@ -91,8 +92,8 @@ def main():
     # Annotation axs[0]
     axs[0].set_xlabel('$x_1$')
     axs[0].set_ylabel('$x_2$')
-    axs[0].set_xlim(-1, 1)
-    axs[0].set_ylim(-1, 1)
+    axs[0].set_xlim(-1.1, 1.1)
+    axs[0].set_ylim(-1.1, 1.1)
     # axs[0].grid()
     # axs[0].set_title('XOR Dataset')
     axs[0].set_xticks(np.arange(-1, 1.1, 1))
@@ -101,6 +102,7 @@ def main():
     plt.tight_layout()
     # plt.show()
     fig.savefig("../figures/simple_ge.pdf")
+    fig.savefig("../figures/simple_ge.png", dpi=300)
 
 if __name__ == "__main__":
     main()

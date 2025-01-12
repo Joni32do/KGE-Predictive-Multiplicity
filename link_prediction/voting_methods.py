@@ -21,14 +21,22 @@ class VotingMethod:
     
 
 class Majority(VotingMethod):
+    def __str__(self):
+        return "Majority"
+    
     def __call__(self, predicted_values: np.ndarray) -> np.ndarray:
         return np.argmax(predicted_values, axis=-1)
 
 class Borda(VotingMethod):
+    def __str__(self):
+        return "Borda"
+    
     def __call__(self, predicted_values: np.ndarray) -> np.ndarray:
         # TODO:
         return (np.argsort(-predicted_values, axis=-1), np.arange(predicted_values.shape[-1]))
 
 class Range(VotingMethod):
+    def __str__(self):
+        return "Range"
     def __call__(self, predicted_values: np.ndarray) -> np.ndarray:
-        pass
+        return np.argmax(predicted_values, axis=-1)
