@@ -59,8 +59,74 @@ def example_baseline_and_epsilon_set():
         eps_set.append(clf)
     return h0, eps_set
 
+cm = 1/2.54
 
-# def calculate
+def plot_only_dataset():
+    X, y = make_xor_dataset(n=100, sampling="mesh")
+    fig, ax = plt.subplots(1, 1, figsize=(10*cm, 10*cm))
+    color = np.full((len(y), 3), FALSE_RED)
+    color[y] = TRUE_GREEN
+    ax.scatter(X[:, 0], X[:, 1], c=color, s=4)
+    
+    # Shade area
+    ax.fill_between([-1, 0], [0, 0], [1, 1], color=TRUE_GREEN, alpha=0.4)
+    ax.fill_between([0, 1], [-1, -1], [0, 0], color=TRUE_GREEN, alpha=0.4)
+    ax.fill_between([-1, 0], [-1, -1], [0, 0], color=FALSE_RED, alpha=0.4)
+    ax.fill_between([0, 1], [0, 0], [1, 1], color=FALSE_RED, alpha=0.4)
+    
+    # Annotation
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-1, 1)
+    # axs[0].grid()
+    # axs[0].set_title('XOR Dataset')
+    ax.set_xticks(np.arange(-1, 1.1, 1))
+    ax.set_yticks(np.arange(-1, 1.1, 1))
+    
+    fig.savefig("../figures/xor/only_data.png", dpi=300)
+
+
+def plot_with_classifier(n: int = 0):
+    X, y = make_xor_dataset(n=100, sampling="mesh")
+    fig, ax = plt.subplots(1, 1, figsize=(10*cm, 10*cm))
+    color = np.full((len(y), 3), FALSE_RED)
+    color[y] = TRUE_GREEN
+    ax.scatter(X[:, 0], X[:, 1], c=color, s=4)
+    
+    # Shade area
+    ax.fill_between([-1, 0], [0, 0], [1, 1], color=TRUE_GREEN, alpha=0.4)
+    ax.fill_between([0, 1], [-1, -1], [0, 0], color=TRUE_GREEN, alpha=0.4)
+    ax.fill_between([-1, 0], [-1, -1], [0, 0], color=FALSE_RED, alpha=0.4)
+    ax.fill_between([0, 1], [0, 0], [1, 1], color=FALSE_RED, alpha=0.4)
+    
+    ## Classifiers
+    h0, eps_set = example_baseline_and_epsilon_set()
+
+    X_plot, Y_plot = np.meshgrid(np.arange(-1, 1, 0.01), np.arange(-1, 1, 0.01))
+    X_concat = np.c_[X_plot.ravel(), Y_plot.ravel()]
+    # Baseline
+    Z = h0.decision_function(X_concat).reshape(X_plot.shape)
+    ax.contour(X_plot, Y_plot, Z, colors=["k"], linestyles=['--'], levels=[0])
+    # Epsilon Set
+    colors = ["tab:blue", "tab:orange", "tab:green", "tab:purple"]
+    for i in range(n):
+        clf = eps_set[i]
+        Z = clf.decision_function(X_concat).reshape(X_plot.shape)
+        ax.contour(X_plot, Y_plot, Z, colors=[colors[i]], linestyles=['--'], levels=[0])
+
+    
+    # Annotation
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-1, 1)
+    # axs[0].grid()
+    # axs[0].set_title('XOR Dataset')
+    ax.set_xticks(np.arange(-1, 1.1, 1))
+    ax.set_yticks(np.arange(-1, 1.1, 1))
+    
+    fig.savefig(f"../figures/xor/with_{n}_classifiers.png", dpi=300)
 
 def main():
     X, y = make_xor_dataset(n=100, sampling="mesh")
@@ -144,3 +210,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+    plot_only_dataset()
+    for n in range(4):
+        plot_with_classifier(n)
