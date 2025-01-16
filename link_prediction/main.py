@@ -15,6 +15,9 @@ from query import Query
 from voting_methods import Majority, Borda, Range
 from plot_graphs import plot_graph
 
+# Presentation specific stuff
+from presentation import plot_graph_presentation
+
 
 def latex_table(query: Query,
                 entity_of_interest: str,
@@ -124,7 +127,7 @@ def main(entities, train_relations):
                             model_preds=model_preds,
                             kge_models=kge_models,
                             voting_methods=voting_methods)
-    print(latex_str)
+    # print(latex_str)
     # save to file
     with open("table.tex", "w") as f:
         f.write(latex_str)
@@ -168,16 +171,28 @@ if __name__ == "__main__":
 
     ]
     test_relations = [
-        ("Earth", "observes", "Curiosity Rover", 0.9),
-        ("Curiosity Rover", "orbits", "Sun", 0.4),
-        ("Sun", "orbits", "Hubble", 0.1),
+        # ("Earth", "observes", "Curiosity Rover", 0.9),
+        # ("Curiosity Rover", "orbits", "Sun", 0.4),
+        # ("Sun", "orbits", "Hubble", 0.1),
         ("Moon", "orbits", "Sun", 0.7),
+        ("Jupiter", "orbits", "Sun", 0.7),
+        ("Mars", "orbits", "Sun", 0.7),
+        ("Earth", "orbits", "Sun", 0.7),
+        ("Curiosity Rover", "orbits", "Sun", 0.7),
+        ("Moon", "orbits", "Sun", 0.7),
+        ("Hubble", "orbits", "Sun", 0.7),
         # ("Hubble", "observes", "Sirius", 0.9),
     ]
 
     plot_graph(entities_dict, train_relations, test_relations)
     main(entities, train_relations)
+    
+    plot_graph_presentation(entities_dict, train_relations, test_relations=[],
+                            fname="wout_test_queries")
 
+    plot_graph_presentation(entities_dict, train_relations=[], test_relations=test_relations,
+                            fname="example query",
+                            show_pm_glyphs=False)
 
 
 

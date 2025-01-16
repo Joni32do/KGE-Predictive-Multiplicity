@@ -8,6 +8,9 @@ from utils import Custom_SVM
 
 from plot_glyph import draw_binary_glyph, explain_binary_glyph, TRUE_GREEN, FALSE_RED
 
+
+cm = 1/2.54
+
 def make_xor_dataset(n: int = 64, sampling: str="marx"):
     if sampling == "mesh":
         X = np.meshgrid(np.linspace(-1, 1, int(np.sqrt(n))),
@@ -48,7 +51,6 @@ def fit_baseline_and_epsilon_set(X, y, epsilon=0.1, n_representatives=3):
             break
     return h0, eps_set
 
-
 def example_baseline_and_epsilon_set():
     h0 = Custom_SVM(w=np.array([0, 1]), b=0)
     eps_set = []
@@ -59,11 +61,10 @@ def example_baseline_and_epsilon_set():
         eps_set.append(clf)
     return h0, eps_set
 
-cm = 1/2.54
-
+# Plot for presentation
 def plot_only_dataset():
     X, y = make_xor_dataset(n=100, sampling="mesh")
-    fig, ax = plt.subplots(1, 1, figsize=(8*cm, 8*cm))
+    fig, ax = plt.subplots(1, 1, figsize=(10*cm, 10*cm))
     color = np.full((len(y), 3), FALSE_RED)
     color[y] = TRUE_GREEN
     ax.scatter(X[:, 0], X[:, 1], c=color, s=4)
@@ -86,10 +87,9 @@ def plot_only_dataset():
     
     fig.savefig("../figures/xor/only_data.png", dpi=300)
 
-
 def plot_with_classifier(n: int = 0):
     X, y = make_xor_dataset(n=100, sampling="mesh")
-    fig, ax = plt.subplots(1, 1, figsize=(8*cm, 8*cm))
+    fig, ax = plt.subplots(1, 1, figsize=(10*cm, 10*cm))
     color = np.full((len(y), 3), FALSE_RED)
     color[y] = TRUE_GREEN
     ax.scatter(X[:, 0], X[:, 1], c=color, s=4)
@@ -139,7 +139,7 @@ def plot_pm_for_all():
 
     # Plot
     cm = 1/2.54  # centimeters in inches
-    fig = plt.figure(figsize=(12*cm, 8*cm))
+    fig = plt.figure(figsize=(15*cm, 10*cm))
     gs = GridSpec(1, 2, width_ratios=[2, 1])
 
     ax0 = fig.add_subplot(gs[0])
@@ -204,7 +204,37 @@ def plot_pm_for_all():
     plt.tight_layout()
     # plt.show()
     fig.savefig("../figures/xor/pm_for_all.png", dpi=300)
+
+def plot_pred_for_baseline():
+    X, y = make_xor_dataset(n=100, sampling="mesh")
+    fig, ax = plt.subplots(1, 1, figsize=(10*cm, 10*cm))
+    color = np.full((len(y), 3), FALSE_RED)
+    color[y] = TRUE_GREEN
+    ax.scatter(X[:, 0], X[:, 1], c=color, s=4)
     
+    ## Classifiers
+    h0, eps_set = example_baseline_and_epsilon_set()
+
+    X_plot, Y_plot = np.meshgrid(np.arange(-1, 1, 0.01), np.arange(-1, 1, 0.01))
+    X_concat = np.c_[X_plot.ravel(), Y_plot.ravel()]
+    # Baseline
+    Z = h0.decision_function(X_concat).reshape(X_plot.shape)
+    ax.contour(X_plot, Y_plot, Z, colors=["k"], linestyles=['--'], levels=[0])
+    
+    # Shade area
+    ax.fill_between([-1, 1], [0, 0], [1, 1], color=TRUE_GREEN, alpha=0.4)
+    ax.fill_between([-1, 1], [-1, -1], [0, 0], color=FALSE_RED, alpha=0.4)
+    
+    # Annotation
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-1, 1)
+    # axs[0].grid()
+    # axs[0].set_title('XOR Dataset')
+    ax.set_xticks(np.arange(-1, 1.1, 1))
+    ax.set_yticks(np.arange(-1, 1.1, 1))
+    fig.savefig("../figures/xor/prediction_baseline.png", dpi=300)
 
 def main():
     X, y = make_xor_dataset(n=100, sampling="mesh")
@@ -287,6 +317,7 @@ def main():
 if __name__ == "__main__":
     main()
     plot_only_dataset()
+    plot_pred_for_baseline()
     plot_pm_for_all()
     for n in range(4):
         plot_with_classifier(n)
