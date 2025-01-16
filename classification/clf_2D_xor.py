@@ -128,7 +128,7 @@ def plot_with_classifier(n: int = 0):
     
     fig.savefig(f"../figures/xor/with_{n}_classifiers.png", dpi=300)
 
-def main():
+def plot_pm_for_all():
     X, y = make_xor_dataset(n=100, sampling="mesh")
     idz = [16, 24, 28, 31, 54, 58, 61, 85]
     X_custom, y_custom = X[idz], y[idz]
@@ -205,11 +205,90 @@ def main():
     
     plt.tight_layout()
     # plt.show()
+    fig.savefig("../figures/xor/pm_for_all.png", dpi=300)
+    
+
+def main():
+    X, y = make_xor_dataset(n=100, sampling="mesh")
+    idz = [16, 24, 28, 31, 54, 58, 61, 85]
+    X_custom, y_custom = X[idz], y[idz]
+    h0, eps_set = example_baseline_and_epsilon_set()
+
+    # X, y = make_marx_dataset(n=10)
+    # h0, eps_set = fit_baseline_and_epsilon_set(X, y, n_representatives=3)
+
+    # Plot
+    cm = 1/2.54  # centimeters in inches
+    fig = plt.figure(figsize=(15*cm, 10*cm))
+    gs = GridSpec(1, 2, width_ratios=[2, 1])
+
+    ax0 = fig.add_subplot(gs[0])
+    ax1 = fig.add_subplot(gs[1])
+    axs = np.array([ax0, ax1])
+    
+    # Draw glyphs
+    for i in range(X_custom.shape[0]):
+        draw_binary_glyph(axs[0], X_custom[i, 0], X_custom[i, 1], [h.predict(X_custom[i]) for h in eps_set], h0.predict(X_custom[i]), y_custom[i])
+    # Annotation
+    explain_binary_glyph(axs[1])
+
+    # Draw additional points (which could be training points)
+    color = np.full((len(y), 3), FALSE_RED)
+    color[y] = TRUE_GREEN
+    axs[0].scatter(X[:, 0], X[:, 1], c=color, s=4)
+
+    # Calculate accuracy of predictors
+    print(f"Baseline accuracy: {h0.score(X, y)}")
+    for i, clf in enumerate(eps_set):
+        print(f"Epsilon set classifier {i+1} accuracy: {clf.score(X, y)}")
+
+
+    # Shade area
+    axs[0].fill_between([-1, 0], [0, 0], [1, 1], color=TRUE_GREEN, alpha=0.4)
+    axs[0].fill_between([0, 1], [-1, -1], [0, 0], color=TRUE_GREEN, alpha=0.4)
+    axs[0].fill_between([-1, 0], [-1, -1], [0, 0], color=FALSE_RED, alpha=0.4)
+    axs[0].fill_between([0, 1], [0, 0], [1, 1], color=FALSE_RED, alpha=0.4)
+
+
+    # Show the decision boundary
+    X_plot, Y_plot = np.meshgrid(np.arange(-1, 1, 0.01), np.arange(-1, 1, 0.01))
+    X_concat = np.c_[X_plot.ravel(), Y_plot.ravel()]
+    # Baseline classifier
+    Z = h0.decision_function(X_concat).reshape(X_plot.shape)
+    axs[0].contour(X_plot, Y_plot, Z, colors=["k"], linestyles=['--'], levels=[0])
+    # Epsilon set classifiers
+    for clf, color in zip(eps_set, ["tab:blue", "tab:orange", "tab:green", "tab:purple"]):
+        Z = clf.decision_function(X_concat).reshape(X_plot.shape)
+        axs[0].contour(X_plot, Y_plot, Z, colors=[color], linestyles=['--'], levels=[0])
+
+
+    # Annotation
+    axs[0].set_xlabel('$x_1$')
+    axs[0].set_ylabel('$x_2$')
+    axs[0].set_xlim(-1, 1)
+    axs[0].set_ylim(-1, 1)
+    # axs[0].grid()
+    # axs[0].set_title('XOR Dataset')
+    axs[0].set_xticks(np.arange(-1, 1.1, 1))
+    axs[0].set_yticks(np.arange(-1, 1.1, 1))
+
+    # Add the custom legend to the second axis
+    legend_elements = [
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=TRUE_GREEN, markersize=5, label='true $(1)$'),
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=FALSE_RED, markersize=5, label='false $(-1)$'),
+        plt.Line2D([0, 1], [0, 1], color='grey', linestyle='--', label='DB of $h_i$'),
+    ]
+    axs[1].legend(handles=legend_elements, loc='lower center', ncol=1)
+    
+    
+    plt.tight_layout()
+    # plt.show()
     fig.savefig("../figures/xor.pdf")
     fig.savefig("../figures/xor.png", dpi=300)
 
 if __name__ == "__main__":
     main()
     plot_only_dataset()
+    plot_pm_for_all()
     for n in range(4):
         plot_with_classifier(n)
