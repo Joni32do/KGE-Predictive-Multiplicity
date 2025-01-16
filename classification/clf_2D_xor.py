@@ -63,7 +63,7 @@ cm = 1/2.54
 
 def plot_only_dataset():
     X, y = make_xor_dataset(n=100, sampling="mesh")
-    fig, ax = plt.subplots(1, 1, figsize=(10*cm, 10*cm))
+    fig, ax = plt.subplots(1, 1, figsize=(8*cm, 8*cm))
     color = np.full((len(y), 3), FALSE_RED)
     color[y] = TRUE_GREEN
     ax.scatter(X[:, 0], X[:, 1], c=color, s=4)
@@ -89,7 +89,7 @@ def plot_only_dataset():
 
 def plot_with_classifier(n: int = 0):
     X, y = make_xor_dataset(n=100, sampling="mesh")
-    fig, ax = plt.subplots(1, 1, figsize=(10*cm, 10*cm))
+    fig, ax = plt.subplots(1, 1, figsize=(8*cm, 8*cm))
     color = np.full((len(y), 3), FALSE_RED)
     color[y] = TRUE_GREEN
     ax.scatter(X[:, 0], X[:, 1], c=color, s=4)
@@ -131,7 +131,7 @@ def plot_with_classifier(n: int = 0):
 def plot_pm_for_all():
     X, y = make_xor_dataset(n=100, sampling="mesh")
     idz = [16, 24, 28, 31, 54, 58, 61, 85]
-    X_custom, y_custom = X[idz], y[idz]
+    X_custom, y_custom = X, y
     h0, eps_set = example_baseline_and_epsilon_set()
 
     # X, y = make_marx_dataset(n=10)
@@ -139,7 +139,7 @@ def plot_pm_for_all():
 
     # Plot
     cm = 1/2.54  # centimeters in inches
-    fig = plt.figure(figsize=(15*cm, 10*cm))
+    fig = plt.figure(figsize=(12*cm, 8*cm))
     gs = GridSpec(1, 2, width_ratios=[2, 1])
 
     ax0 = fig.add_subplot(gs[0])
@@ -180,8 +180,6 @@ def plot_pm_for_all():
     for clf, color in zip(eps_set, ["tab:blue", "tab:orange", "tab:green", "tab:purple"]):
         Z = clf.decision_function(X_concat).reshape(X_plot.shape)
         axs[0].contour(X_plot, Y_plot, Z, colors=[color], linestyles=['--'], levels=[0])
-
-
 
 
     # Annotation
