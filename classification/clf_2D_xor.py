@@ -87,7 +87,7 @@ def plot_only_dataset():
     
     fig.savefig("../figures/xor/only_data.png", dpi=300)
 
-def plot_with_classifier(n: int = 0):
+def plot_with_classifier(n: int = 0, plot_glyph: bool=False):
     X, y = make_xor_dataset(n=100, sampling="mesh")
     fig, ax = plt.subplots(1, 1, figsize=(10*cm, 10*cm))
     color = np.full((len(y), 3), FALSE_RED)
@@ -99,9 +99,17 @@ def plot_with_classifier(n: int = 0):
     ax.fill_between([0, 1], [-1, -1], [0, 0], color=TRUE_GREEN, alpha=0.4)
     ax.fill_between([-1, 0], [-1, -1], [0, 0], color=FALSE_RED, alpha=0.4)
     ax.fill_between([0, 1], [0, 0], [1, 1], color=FALSE_RED, alpha=0.4)
-    
+        
     ## Classifiers
     h0, eps_set = example_baseline_and_epsilon_set()
+    
+    if plot_glyph:
+        eps_set = eps_set[:n]
+        idz = [16, 24, 28, 31, 54, 58, 61, 85]
+        X_custom, y_custom = X[idz], y[idz]
+        # Draw glyphs
+        for i in range(X_custom.shape[0]):
+            draw_binary_glyph(ax, X_custom[i, 0], X_custom[i, 1], [h.predict(X_custom[i]) for h in eps_set], h0.predict(X_custom[i]), y_custom[i])
 
     X_plot, Y_plot = np.meshgrid(np.arange(-1, 1, 0.01), np.arange(-1, 1, 0.01))
     X_concat = np.c_[X_plot.ravel(), Y_plot.ravel()]
@@ -114,6 +122,7 @@ def plot_with_classifier(n: int = 0):
         clf = eps_set[i]
         Z = clf.decision_function(X_concat).reshape(X_plot.shape)
         ax.contour(X_plot, Y_plot, Z, colors=[colors[i]], linestyles=['--'], levels=[0])
+
 
     
     # Annotation

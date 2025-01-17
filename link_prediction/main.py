@@ -193,6 +193,11 @@ if __name__ == "__main__":
     plot_graph_presentation(entities_dict, train_relations=[], test_relations=test_relations,
                             fname="example query",
                             show_pm_glyphs=False)
+    
+    plot_graph_presentation(entities={"Earth": (-2, 0), "Sun": (2, 0)}, train_relations=[("Earth", "orbits", "Sun")], test_relations=[],
+                            fname="simple_graph",
+                            figsize=(6, 6),
+                            legend_only_orbits=True)
 
 
 

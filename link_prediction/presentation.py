@@ -58,10 +58,12 @@ def plot_graph_presentation(entities,
                train_relations,
                test_relations,
                fname: str="",
-               show_pm_glyphs: bool = False):
+               show_pm_glyphs: bool = False,
+               figsize=(16, 8),
+               legend_only_orbits: bool = False):
     # Initialize the figure and axis
     cm = 1/2.54  # centimeters in inches
-    fig, ax = plt.subplots(figsize=(16*cm, 8*cm))
+    fig, ax = plt.subplots(figsize=(figsize[0]*cm, figsize[1]*cm))
     ax.set_xlim(-3, 5) #8
     ax.set_ylim(-2, 2) # 5
     ax.axis("off")
@@ -90,10 +92,12 @@ def plot_graph_presentation(entities,
     # Add legend
     legend_elements = [
         Line2D([0], [0], marker="o", color="w", markerfacecolor="darkorange", label="Orbits"),
-        Line2D([0], [0], marker="o", color="w", markerfacecolor="mediumorchid", label="Observes"),
+        
         # Line2D([0], [0], ls="-", color="grey", label="$\\mathcal{T}_{train}$"),
         # Line2D([0], [0], ls="--", color="grey", label="$\\mathcal{T}_{test}$"),
     ]
+    if not legend_only_orbits:
+        legend_elements.append(Line2D([0], [0], marker="o", color="w", markerfacecolor="mediumorchid", label="Observes"))
     ax.legend(handles=legend_elements, loc="lower right", frameon=True)
 
     # Show the plot
