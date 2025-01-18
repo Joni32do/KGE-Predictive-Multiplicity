@@ -171,16 +171,16 @@ if __name__ == "__main__":
 
     ]
     test_relations = [
-        # ("Earth", "observes", "Curiosity Rover", 0.9),
-        # ("Curiosity Rover", "orbits", "Sun", 0.4),
-        # ("Sun", "orbits", "Hubble", 0.1),
+        ("Earth", "observes", "Curiosity Rover", 0.9),
+        ("Curiosity Rover", "orbits", "Sun", 0.4),
+        ("Sun", "orbits", "Hubble", 0.1),
         ("Moon", "orbits", "Sun", 0.7),
-        ("Jupiter", "orbits", "Sun", 0.7),
-        ("Mars", "orbits", "Sun", 0.7),
-        ("Earth", "orbits", "Sun", 0.7),
-        ("Curiosity Rover", "orbits", "Sun", 0.7),
-        ("Moon", "orbits", "Sun", 0.7),
-        ("Hubble", "orbits", "Sun", 0.7),
+        # ("Jupiter", "orbits", "Sun", 0.7),
+        # ("Mars", "orbits", "Sun", 0.7),
+        # ("Earth", "orbits", "Sun", 0.7),
+        # ("Curiosity Rover", "orbits", "Sun", 0.7),
+        # ("Moon", "orbits", "Sun", 0.7),
+        # ("Hubble", "orbits", "Sun", 0.7),
         # ("Hubble", "observes", "Sirius", 0.9),
     ]
 
